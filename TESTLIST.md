@@ -1,4 +1,4 @@
-# Tests (57)
+# Tests (58)
 ## Test of board (8)
 - There should be a white rook at A1 (0,0)
 - There should be a white rook at H1 (7,0)
@@ -22,7 +22,7 @@
 - White starts
 - Black is after white
 - White is after black
-## Test of moving (37)
+## Test of moving (38)
 - After moving a piece, it is no longer at original position
 - Pawn (11)
     - White pawn can move forward 1 tile
@@ -53,10 +53,11 @@
     - Knight can move up 2, right 1
     - Knight can move up 2, left 1
     - Knight can move down 1, left 2
-- Queen (3)
+- Queen (4)
     - Queen can move like bishop
     - Queen can move like rook
     - Queen can't move like rook through another piece
+    - Queen can't move like bishop through another piece
 - King (8)
     - King can move forward
     - King can't move forward more than 1 tile

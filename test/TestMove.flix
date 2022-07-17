@@ -376,6 +376,18 @@ def queenCantMoveLikeRookThroughPiece(): Bool = {
 }
 
 @test
+def queenCantMoveLikeBishopThroughPiece(): Bool = {
+    let fro = (3,3);
+    let mid = (5,5);
+    let to = (6,6);
+    let result = Board.Board({tiles = Map#{fro => Queen(White), mid => Pawn(Black)}, turn = White}) |> move(fro = fro, to = to);
+    match result {
+        case Err(_) => true,
+        case Ok(_) => false
+    }
+}
+
+@test
 def kingCanMoveForward(): Bool = {
     let fro = (3,3);
     let to = (3,4);
