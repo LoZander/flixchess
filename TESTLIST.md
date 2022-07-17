@@ -1,4 +1,4 @@
-# Tests (54)
+# Tests (56)
 ## Test of board (8)
 - There should be a white rook at A1 (0,0)
 - There should be a white rook at H1 (7,0)
@@ -22,9 +22,9 @@
 - White starts
 - Black is after white
 - White is after black
-## Test of moving (34)
+## Test of moving (36)
 - After moving a piece, it is no longer at original position
-- Pawn (9)
+- Pawn (11)
     - White pawn can move forward 1 tile
     - Black pawn can move forward 1 tile
     - White pawn can't move backwards
@@ -34,6 +34,8 @@
     - Black pawn can't move down-left (when not attacking)
     - Black pawn can't move down-right (when not attacking)
     - Pawn can only move one step
+    - White pawn can't move forward onto another piece
+    - Black pawn can't move forward onto another piece
 - Rook (5)
     - Rook can move multiple tiles
     - Rook can't move up-right

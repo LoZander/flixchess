@@ -127,6 +127,28 @@ def pawnCanOnlyMoveOneStep(): Bool = {
 }
 
 @test
+def whitePawnCantMoveForwardOntoPiece(): Bool = {
+    let fro = (3,3);
+    let to = (3,4);
+    let result = Board.Board({tiles = Map#{fro => Pawn(White), to => Pawn(Black)}, turn = White}) |> move(fro = fro, to = to);
+    match result {
+        case Err(_) => true,
+        case Ok(_) => false
+    }
+}
+
+@test
+def blackPawnCantMoveForwardOntoPiece(): Bool = {
+    let fro = (3,3);
+    let to = (3,2);
+    let result = Board.Board({tiles = Map#{fro => Pawn(Black), to => Pawn(White)}, turn = Black}) |> move(fro = fro, to = to);
+    match result {
+        case Err(_) => true,
+        case Ok(_) => false
+    }
+}
+
+@test
 def rookCanMoveMultipleTiles(): Bool = {
     let fro = (1,1);
     let to = (1,5);
