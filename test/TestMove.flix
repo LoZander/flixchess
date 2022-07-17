@@ -6,19 +6,6 @@ use Chess/Player.Player;
 use Chess/Player.Player.{White, Black};
 
 @test
-def pawnCanMoveForward1Step(): Bool = {
-    let before = Board.Board({tiles = Map#{(1,1) => Piece.Pawn(Player.White)}, turn = White});
-    let result = before |> move(fro = (1,1), to = (1,2));
-    match result {
-        case Err(_) => false,
-        case Ok(inner) => {
-            let isPawnAt12 = inner |> getPiece((1,2)) == Some(Piece.Pawn(Player.White));
-            isPawnAt12
-        }
-    }
-}
-
-@test
 def afterMovingPieceItIsntDuplicated(): Bool = {
     let before = Board.Board({tiles = Map#{(1,1) => Piece.Pawn(Player.White)}, turn = White});
     let result = before |> move(fro = (1,1), to = (1,2));
@@ -32,7 +19,34 @@ def afterMovingPieceItIsntDuplicated(): Bool = {
 }
 
 @test
-def pawnCantMoveBackwards(): Bool = {
+def whitePawnCanMoveForward1(): Bool = {
+    let before = Board.Board({tiles = Map#{(1,1) => Piece.Pawn(Player.White)}, turn = White});
+    let result = before |> move(fro = (1,1), to = (1,2));
+    match result {
+        case Err(_) => false,
+        case Ok(inner) => {
+            let isPawnAt12 = inner |> getPiece((1,2)) == Some(Piece.Pawn(Player.White));
+            isPawnAt12
+        }
+    }
+}
+
+@test
+def blackPawnCanMoveForward1(): Bool = {
+    let fro = (3,3);
+    let to = (3,2);
+    let result = Board.Board({tiles = Map#{fro => Pawn(Black)}, turn = Black}) |> move(fro = fro, to = to);
+    match result {
+        case Err(_) => false,
+        case Ok(inner) => {
+            let isBlackPawnAt32 = inner |> getPiece(to) == Some(Pawn(Black));
+            isBlackPawnAt32
+        }
+    }   
+}
+
+@test
+def whitePawnCantMoveBackwards(): Bool = {
     let fro = (3,3);
     let to = (3,2);
     let result = Board.Board({tiles = Map#{fro => Piece.Pawn(Player.White)}, turn = White}) |> move(fro = fro, to = to);
@@ -40,6 +54,17 @@ def pawnCantMoveBackwards(): Bool = {
         case Err(_) => true,
         case Ok(_) => false
     }
+}
+
+@test
+def blackPawnCantMoveBackwards(): Bool = {
+    let fro = (3,3);
+    let to = (3,4);
+    let result = Board.Board({tiles = Map#{fro => Pawn(Black)}, turn = Black}) |> move(fro = fro, to = to);
+    match result {
+        case Err(_) => true,
+        case Ok(_) => false
+    }   
 }
 
 @test
@@ -116,7 +141,7 @@ def rookCanMoveMultipleTiles(): Bool = {
 }
 
 @test
-def rookCantMoveDiagUpRight(): Bool = {
+def rookCantMoveUpRight(): Bool = {
     let fro = (3,3);
     let to = (6,6);
     let result = Board.Board({tiles = Map#{fro => Rook(White)}, turn = White}) |> move(fro = fro, to = to);
@@ -141,7 +166,33 @@ def rookCanMoveOnXAxis(): Bool = {
 }
 
 @test
-def bishopCanMoveDiagUpRight(): Bool = {
+def rookCantMoveVerticallyThroughPiece(): Bool = {
+    let fro = (3,3);
+    let mid = (3,5);
+    let to = (3,8);
+    let board: Board = Board.Board({tiles = Map#{fro => Rook(White), mid => Rook(Black)}, turn = White});
+    let result = board |> move(fro = fro, to = to);
+    match result {
+        case Err(_) => true,
+        case Ok(_) => false
+    }
+}
+
+@test
+def rookCantMoveHorizontallyThroughPiece(): Bool = {
+    let fro = (3,3);
+    let mid = (2,3);
+    let to = (0,3);
+    let board: Board = Board.Board({tiles = Map#{fro => Rook(White), mid => Rook(Black)}, turn = White});
+    let result = board |> move(fro = fro, to = to);
+    match result {
+        case Err(_) => true,
+        case Ok(_) => false
+    }
+}
+
+@test
+def bishopCanMoveUpRight(): Bool = {
     let fro = (3,3);
     let to = (6,6);
     let result = Board.Board({tiles = Map#{fro => Bishop(White)}, turn = White}) |> move(fro = fro, to = to);
@@ -155,7 +206,7 @@ def bishopCanMoveDiagUpRight(): Bool = {
 }
 
 @test
-def bishopCanMoveDiagDownRight(): Bool = {
+def bishopCanMoveDownRight(): Bool = {
     let fro = (3,3);
     let to = (6,0);
     let result = Board.Board({tiles = Map#{fro => Bishop(White)}, turn = White}) |> move(fro = fro, to = to);
@@ -165,6 +216,58 @@ def bishopCanMoveDiagDownRight(): Bool = {
             let isBishopAt60 = inner |> getPiece(to) == Some(Bishop(White));
             isBishopAt60
         }
+    }
+}
+
+@test
+def bishopCantMoveUpRightThroughPiece(): Bool = {
+    let fro = (3,3);
+    let mid = (5,5);
+    let to = (8,8);
+    let board: Board = Board.Board({tiles = Map#{fro => Bishop(White), mid => Bishop(Black)}, turn = White});
+    let result = board |> move(fro = fro, to = to);
+    match result {
+        case Err(_) => true,
+        case Ok(_) => false
+    }
+}
+
+@test
+def bishopCantMoveUpLeftThroughPiece(): Bool = {
+    let fro = (3,3);
+    let mid = (1,5);
+    let to = (0,6);
+    let board: Board = Board.Board({tiles = Map#{fro => Bishop(White), mid => Bishop(Black)}, turn = White});
+    let result = board |> move(fro = fro, to = to);
+    match result {
+        case Err(_) => true,
+        case Ok(_) => false
+    }
+}
+
+@test
+def bishopCantMoveDownRightThroughPiece(): Bool = {
+    let fro = (3,3);
+    let mid = (5,1);
+    let to = (6,0);
+    let board: Board = Board.Board({tiles = Map#{fro => Bishop(White), mid => Bishop(Black)}, turn = White});
+    let result = board |> move(fro = fro, to = to);
+    match result {
+        case Err(_) => true,
+        case Ok(_) => false
+    }
+}
+
+@test
+def bishopCantMoveDownLeftThroughPiece(): Bool = {
+    let fro = (3,3);
+    let mid = (2,2);
+    let to = (0,0);
+    let board: Board = Board.Board({tiles = Map#{fro => Bishop(White), mid => Bishop(Black)}, turn = White});
+    let result = board |> move(fro = fro, to = to);
+    match result {
+        case Err(_) => true,
+        case Ok(_) => false
     }
 }
 
@@ -338,105 +441,5 @@ def kingCantMoveRightMoreThan1(): Bool = {
     }   
 }
 
-@test
-def blackPawnCanMoveForward(): Bool = {
-    let fro = (3,3);
-    let to = (3,2);
-    let result = Board.Board({tiles = Map#{fro => Pawn(Black)}, turn = Black}) |> move(fro = fro, to = to);
-    match result {
-        case Err(_) => false,
-        case Ok(inner) => {
-            let isBlackPawnAt32 = inner |> getPiece(to) == Some(Pawn(Black));
-            isBlackPawnAt32
-        }
-    }   
-}
 
-@test
-def blackPawnCantMoveBackwards(): Bool = {
-    let fro = (3,3);
-    let to = (3,4);
-    let result = Board.Board({tiles = Map#{fro => Pawn(Black)}, turn = Black}) |> move(fro = fro, to = to);
-    match result {
-        case Err(_) => true,
-        case Ok(_) => false
-    }   
-}
 
-@test
-def rookCantMoveVerticallyThroughPiece(): Bool = {
-    let fro = (3,3);
-    let mid = (3,5);
-    let to = (3,8);
-    let board: Board = Board.Board({tiles = Map#{fro => Rook(White), mid => Rook(Black)}, turn = White});
-    let result = board |> move(fro = fro, to = to);
-    match result {
-        case Err(_) => true,
-        case Ok(_) => false
-    }
-}
-
-@test
-def rookCantMoveHorizontallyThroughPiece(): Bool = {
-    let fro = (3,3);
-    let mid = (2,3);
-    let to = (0,3);
-    let board: Board = Board.Board({tiles = Map#{fro => Rook(White), mid => Rook(Black)}, turn = White});
-    let result = board |> move(fro = fro, to = to);
-    match result {
-        case Err(_) => true,
-        case Ok(_) => false
-    }
-}
-
-@test
-def bishopCantMoveUpRightThroughPiece(): Bool = {
-    let fro = (3,3);
-    let mid = (5,5);
-    let to = (8,8);
-    let board: Board = Board.Board({tiles = Map#{fro => Bishop(White), mid => Bishop(Black)}, turn = White});
-    let result = board |> move(fro = fro, to = to);
-    match result {
-        case Err(_) => true,
-        case Ok(_) => false
-    }
-}
-
-@test
-def bishopCantMoveUpLeftThroughPiece(): Bool = {
-    let fro = (3,3);
-    let mid = (1,5);
-    let to = (0,6);
-    let board: Board = Board.Board({tiles = Map#{fro => Bishop(White), mid => Bishop(Black)}, turn = White});
-    let result = board |> move(fro = fro, to = to);
-    match result {
-        case Err(_) => true,
-        case Ok(_) => false
-    }
-}
-
-@test
-def bishopCantMoveDownRightThroughPiece(): Bool = {
-    let fro = (3,3);
-    let mid = (5,1);
-    let to = (6,0);
-    let board: Board = Board.Board({tiles = Map#{fro => Bishop(White), mid => Bishop(Black)}, turn = White});
-    let result = board |> move(fro = fro, to = to);
-    match result {
-        case Err(_) => true,
-        case Ok(_) => false
-    }
-}
-
-@test
-def bishopCantMoveDownLeftThroughPiece(): Bool = {
-    let fro = (3,3);
-    let mid = (2,2);
-    let to = (0,0);
-    let board: Board = Board.Board({tiles = Map#{fro => Bishop(White), mid => Bishop(Black)}, turn = White});
-    let result = board |> move(fro = fro, to = to);
-    match result {
-        case Err(_) => true,
-        case Ok(_) => false
-    }
-}
