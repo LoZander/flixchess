@@ -3,7 +3,7 @@
     - [x] Pawn
     - [x] Rook
     - [x] Bishop
-    - [ ] Queen
+    - [x] Queen
     - [ ] King
 - Check check
 - Check-mate check
