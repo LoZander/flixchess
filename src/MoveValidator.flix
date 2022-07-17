@@ -19,18 +19,18 @@ namespace Chess/MoveValidator {
      *  or Err(message) if the move is invalid, where message explains why.
      */
     pub def isMoveValid(fro: {fro :: (Int32, Int32)}, to: {to :: (Int32, Int32)}, piece: Piece, board: Board): Result[Board, String] & Pure = {
-        Ok(board)                                       |> 
+        Ok(board)                                   |> 
         Result.flatMap(actingPlayerIsInTurn(fro))   |>
-        Result.flatMap(isFriendlyFire(fro, to))  |>
+        Result.flatMap(isFriendlyFire(fro, to))     |>
         Result.flatMap(pieceCheck(fro, to, piece))
     }
 
     def actingPlayerIsInTurn(fro: {fro :: (Int32, Int32)}, board: Board): Result[Board, String] = {
         let playerInTurn: Player = getTurn(board);
-        let moverIsInTurn: Bool = board |>
-        getPiece(fro.fro) |>
-        Option.map(getOwner) |>
-        Option.map(p1 -> p1 == playerInTurn) |>
+        let moverIsInTurn: Bool = board         |>
+        getPiece(fro.fro)                       |>
+        Option.map(getOwner)                    |>
+        Option.map(p1 -> p1 == playerInTurn)    |>
         Option.getWithDefault(false);
 
         if(not moverIsInTurn)
