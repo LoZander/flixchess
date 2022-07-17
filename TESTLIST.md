@@ -1,0 +1,65 @@
+# Tests (54)
+## Test of board (8)
+- There should be a white rook at A1 (0,0)
+- There should be a white rook at H1 (7,0)
+- There should be a black rook at A8 (7,0)
+- There should be a black rook at H8 (7,7)
+- There should be a black knight at G8 (6,7)
+- There should be a white pawn at D2 (3,1)
+- There should be nothing at E3 (4,2)
+- There should be nothing at A6 (0,5)
+## Test of attack (5)
+- A piece can move onto an enemy
+- A white pawn can move up-right onto an enemy
+- A white pawn can move up-left onto an enemy
+- A black pawn can move down-left onto an enemy
+- A piece can't move onto a friend
+## Test of turn (7)
+- White piece can be moved during white's turn
+- White piece can't be moved during black's turn
+- Black piece can be moved during black's turn
+- Black piece can't be moved during white's turn
+- White starts
+- Black is after white
+- White is after black
+## Test of moving (34)
+- After moving a piece, it is no longer at original position
+- Pawn (9)
+    - White pawn can move forward 1 tile
+    - Black pawn can move forward 1 tile
+    - White pawn can't move backwards
+    - Black pawn can't move backwards
+    - White pawn can't move up-right (when not attacking)
+    - White pawn can't move up-left (when not attacking)
+    - Black pawn can't move down-left (when not attacking)
+    - Black pawn can't move down-right (when not attacking)
+    - Pawn can only move one step
+- Rook (5)
+    - Rook can move multiple tiles
+    - Rook can't move up-right
+    - Rook can move on x-axis
+    - Rook can't move vertically through a piece
+    - Rook can't move horizontally through a piece
+- Bishop (6)
+    - Bishop can move up-right
+    - Bishop can move down-right
+    - Bishop can't move up-right through a piece
+    - Bishop can't move up-left through a piece
+    - Bishop can't move down-rihgt through a piece
+    - Bishop can't move down-left through a piece
+- Knight (3)
+    - Knight can move up 2, right 1
+    - Knight can move up 2, left 1
+    - Knight can move down 1, left 2
+- Queen (2)
+    - Queen can move like bishop
+    - Queen can move like rook
+- King (8)
+    - King can move forward
+    - King can't move forward more than 1 tile
+    - King can move left
+    - King can't move left more than 1 tile
+    - King can move backwards
+    - King can't move backwards more than 1 tile
+    - King can move right
+    - King can't move right more than 1 tile
