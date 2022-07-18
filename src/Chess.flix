@@ -4,7 +4,7 @@ use Chess/Player.Player.{Black, White};
 use Chess/Piece.Piece.{King, Queen, Knight, Bishop, Rook, Pawn};
 
 namespace Chess/Board {
-    pub enum Board({ tiles :: Map[(Int32,Int32), Piece], turn :: Player})
+    pub enum Board({ tiles :: Map[(Int32,Int32), Piece], turn :: Player, check :: Option[Player] })
 
     instance ToString[Board] {
         /**
